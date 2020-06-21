@@ -4,7 +4,7 @@ import os
 import sys
 import logging
 
-logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO)
 
 # 设置 ssl 很重要，否则将报 ssl 错
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -51,7 +51,9 @@ def set_article(article_path):
     with open(article_path, 'rb') as f:
         content = f.read().decode('utf-8')
 
+    # 使用分组
     reg = r'(---(.|[\n])*?---)'
+
     p = re.compile(reg)
     headers = p.findall(content)
 
@@ -59,6 +61,7 @@ def set_article(article_path):
     if len(headers) < 1:
         raise ValueError('文章 %s 不存在 header 信息块「--- ** ---」，请检查！' % article_path)
 
+    # headers[0] 为 tuple
     header_str = headers[0][0]
 
     lines = header_str.split('\n')
@@ -103,7 +106,7 @@ def set_article(article_path):
     content = '<div class=\"cnblogs-markdown\">%s</div>' % content
 
     if title is '' or content is '' or tags is '':
-        raise ValueError('文章 title、content、tags 均不能为空；\': \'后有空格，请检查！')
+        raise ValueError('文章 title、content、tags 均不能为空；\': \'后有空格。请检查！')
 
     article = {'title': title, 'content': content, 'tags': tags}
     return article
@@ -163,7 +166,7 @@ def edit_or_new(article_path):
     posts = blog.getRecentPosts(100)
     article = set_article(article_path)
 
-    # 如果存在，更新，否则新增
+    # 如果存在，更新，否则新增。接口不提供最近修改时间，所以不能跳过
     exist_flag = 0
 
     for post in posts:

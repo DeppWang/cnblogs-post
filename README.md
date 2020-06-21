@@ -1,6 +1,8 @@
 我的[个人独立博客](https//depp.wang)是基于 Hexo 搭建的，因为小站，Google 搜索引擎收录文章比较慢，还搜不到
 
-为了解决这个问题，希望文章也顺便发布到博客平台[博客园](https://www.cnblogs.com/deppwang)上。但不想每次手动复制粘贴，希望利用脚本实现，希望除了发布，并且还能更新文章。原来打算[利用模拟登陆的方式实现](https://depp.wang/2020/06/11/how-to-find-the-api-of-a-website-eg-note-youdao-com/)，搜索发现博客园提供的 [MetaWeblog 接口](https://rpc.cnblogs.com/metaweblog/deppwang)，所以利用接口，开发了一个这个脚本。[脚本地址](https://github.com/DeppWang/cnblogs-post)
+为了解决这个问题，希望把文章也顺便发布到博客平台[博客园](https://www.cnblogs.com/deppwang)上。但不想每次手动复制粘贴，打算利用脚本实现，希望除了发布，并且还能更新文章。原来打算[找到博客园接口](https://depp.wang/2020/06/11/how-to-find-the-api-of-a-website-eg-note-youdao-com/)，模拟操作接口实现。搜索发现博客园提供了 [MetaWeblog 接口](https://rpc.cnblogs.com/metaweblog/deppwang)，所以利用接口，开发了一个这个脚本。[源码地址](https://github.com/DeppWang/cnblogs-post)
+
+<!---more-->
 
 ## 如何使用这个脚本
 
@@ -8,7 +10,7 @@
 
 ![image-20200620185444059](https://deppwang.oss-cn-beijing.aliyuncs.com/blog/2020-06-20-105444.png)
 
-在 cnblogs-post.py 中配置
+在 `cnblogs-post.py` 中配置：
 
 ```Python
 config = {
@@ -19,7 +21,7 @@ config = {
 }
 ```
 
-在文章开头，添加文章 Header 块，至少需要包括 title 和 tags，格式如下：
+在文章开头，添加文章信息块，至少需要包括 title 和 tags，格式如下：
 
 ```Markdown
 ---
@@ -32,7 +34,7 @@ categories: Tools
 正文开始 ...
 ```
 
-脚本根据文章名称来判断是否已经发布，如果已经发布，更新，否则新增。默认发布最近修改文章，也可以指定文章数量（count）
+脚本根据文章名称来判断是否已经发布，如果已经发布，更新，否则新增。默认只操作最近修改文章，但也可以指定文章数量（count）
 
 ```Python
 python3 cnblogs-post.py [count]   # macOS/Linux
@@ -76,7 +78,7 @@ def main():
 
 ## 一文多发
 
-脚本只实现发布、更新文章到博客园。如果想实现一文多发，可使用 OpenWrit，或自己开发相应脚本，方法为[找到相应接口](https://depp.wang/2020/06/11/how-to-find-the-api-of-a-website-eg-note-youdao-com/)，使用模拟登录的方式实现
+脚本只实现发布、更新文章到博客园。如果想实现一文多发，可使用 OpenWrit，或自己开发相应脚本，方法为[找到相应接口](https://depp.wang/2020/06/11/how-to-find-the-api-of-a-website-eg-note-youdao-com/)，使用模拟操作接口的方式实现
 
 ## 参考
 
@@ -84,3 +86,4 @@ def main():
 - https://github.com/Whistle1988/auto_post_article
 - https://rpc.cnblogs.com/metaweblog/deppwang
 - http://samwirch.com/blog/recursively-find-the-last-modified-file-in-python
+- https://github.com/executablebooks/markdown-it-py

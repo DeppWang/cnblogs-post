@@ -11,6 +11,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 # dict
 config = {
+    'user_unique_name': 'deppwang',
     'url': 'https://rpc.cnblogs.com/metaweblog/deppwang',              # 你的 MetaWeblog 访问地址
     'username': 'DeppWangXQ',                                          # 你的登录用户名，可能跟上面的不一致
     'password': '12345678',                                            # 你的登录密码
@@ -174,14 +175,14 @@ def edit_or_new(article_path):
         if judge_str_equal(post['title'], article['title']):
             status = blog.editPost(post['postid'], article)
             if status is True:
-                print("更新文章「%s」成功" % article['title'])
+                print("更新文章「%s」成功，文章地址 https://www.cnblogs.com/%s/p/%s.html" % (article['title'], config['user_unique_name'], post['postid']))
             exist_flag = 1
             break
 
     if exist_flag == 0:
         id = blog.newPost(article)
         if id is not None:
-            print("发布文章成功，文章 id 为 %s" % id)
+            print("发布文章「%s」成功，文章地址 https://www.cnblogs.com/%s/p/%s.html" % (article['title'], config['user_unique_name'], id))
 
 
 def main():

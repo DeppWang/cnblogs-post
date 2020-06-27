@@ -51,6 +51,8 @@ python cnblogs-post.py [count]    # Windows
 - 默认只操作最近修改文章，但也可以指定文章数量（count）
 - 脚本根据文章名称来判断是否已经发布，如果已经发布，更新，否则新增。
 
+![image-20200627223237894](https://deppwang.oss-cn-beijing.aliyuncs.com/blog/2020-06-27-143238.png)
+
 ### 运行脚本删除
 
 ```shell

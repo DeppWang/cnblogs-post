@@ -90,7 +90,7 @@ def main():
 
 ## 一文多发
 
-脚本只实现发布、更新文章到博客园。如果想实现一文多发，可使用 OpenWrit，或自己开发相应脚本，方法为[找到相应接口](https://depp.wang/2020/06/11/how-to-find-the-api-of-a-website-eg-note-youdao-com/)，使用模拟操作接口的方式实现
+脚本只实现发布、更新文章到博客园。如果想实现一文多发，可自己开发相应脚本，方法为[找到相应接口](https://depp.wang/2020/06/11/how-to-find-the-api-of-a-website-eg-note-youdao-com/)，使用模拟操作接口的方式实现
 
 ## 出发点
 

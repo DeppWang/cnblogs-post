@@ -11,7 +11,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 # dict
 config = {
-    'user_unique_name': 'deppwang',
+    'user_unique_name': 'deppwang',                                    # 你的用户名，用于拼接文章 url
     'url': 'https://rpc.cnblogs.com/metaweblog/deppwang',              # 你的 MetaWeblog 访问地址
     'username': 'DeppWangXQ',                                          # 你的登录用户名，可能跟上面的不一致
     'password': '12345678',                                            # 你的登录密码
@@ -43,7 +43,9 @@ class MetaWeblog:
                                               True)
 
 
-def set_article(article_path):
+def set_article(article_path: str) -> dict:
+    """ 根据文章路径设置文章（标题、标签和内容）"""
+
     import re
     from markdown_it import MarkdownIt
     from markdown_it.extensions.front_matter import front_matter_plugin
@@ -113,7 +115,9 @@ def set_article(article_path):
     return article
 
 
-def get_local_modified_file(file_count):
+def get_local_modified_file(file_count: int):
+    """ 获取指定数量的最近修改文章 """
+
     import stat
     import datetime as dt
 
@@ -134,7 +138,49 @@ def get_local_modified_file(file_count):
     return modified[0: file_count]
 
 
-def delete():
+def judge_str_equal(str1, str2):
+    """ 判断两个字符串是否相等 """
+
+    str1 = str1.replace(' ', '')
+    str2 = str2.replace(' ', '')
+    return str1 == str2
+
+
+def edit_or_new(article_path: str) -> None:
+    """ 编辑或新增 """
+
+    blog = MetaWeblog(config['url'], config['username'], config['password'])
+    posts = blog.getRecentPosts(100)
+    article = set_article(article_path)
+    title = article['title']
+
+    # 如果存在，更新，否则新增。接口不提供最近修改时间，所以不能跳过
+    exist_flag = 0
+
+    for post in posts:
+        # 判断是否含有相同的字符，不直接用等号
+        if judge_str_equal(post['title'], title):
+            status = blog.editPost(post['postid'], article)
+            if status is True:
+                print("更新文章「%s」成功，文章地址 https://www.cnblogs.com/%s/p/%s.html" % (title, config['user_unique_name'], post['postid']))
+            exist_flag = 1
+            break
+
+    if exist_flag == 0:
+        id = blog.newPost(article)
+        if id is not None:
+            print("发布文章「%s」成功，文章地址 https://www.cnblogs.com/%s/p/%s.html" % (title, config['user_unique_name'], id))
+
+
+def post(count: int) -> None:
+    """ 发布指定数量的最新修改文章 """
+
+    modified_files = get_local_modified_file(count)
+    for modified_file in modified_files:
+        edit_or_new(modified_file[1])
+
+
+def delete() -> None:
     """ 默认删除最新文章 """
 
     metaWeblog = MetaWeblog(config['url'], config['username'], config['password'])
@@ -148,58 +194,22 @@ def delete():
         print('删除「%s」失败，文章不存在。文章 id 为：%s' % (title, postid))
 
 
-def post(count):
-
-    modified_files = get_local_modified_file(count)
-    for modified_file in modified_files:
-        edit_or_new(modified_file[1])
-
-
-def judge_str_equal(str1, str2):
-    str1 = str1.replace(' ', '')
-    str2 = str2.replace(' ', '')
-    return str1 == str2
-
-
-def edit_or_new(article_path):
-
-    blog = MetaWeblog(config['url'], config['username'], config['password'])
-    posts = blog.getRecentPosts(100)
-    article = set_article(article_path)
-
-    # 如果存在，更新，否则新增。接口不提供最近修改时间，所以不能跳过
-    exist_flag = 0
-
-    for post in posts:
-        # 判断是否含有相同的字符，不直接用等号
-        if judge_str_equal(post['title'], article['title']):
-            status = blog.editPost(post['postid'], article)
-            if status is True:
-                print("更新文章「%s」成功，文章地址 https://www.cnblogs.com/%s/p/%s.html" % (article['title'], config['user_unique_name'], post['postid']))
-            exist_flag = 1
-            break
-
-    if exist_flag == 0:
-        id = blog.newPost(article)
-        if id is not None:
-            print("发布文章「%s」成功，文章地址 https://www.cnblogs.com/%s/p/%s.html" % (article['title'], config['user_unique_name'], id))
-
-
 def main():
 
     try:
-        print('正在发布 ...')
+
         if len(sys.argv) > 1 and sys.argv[1] == 'delete':
             delete()
 
         elif len(sys.argv) > 1 and isinstance(int(sys.argv[1]), int):
+            print('正在发布 ...')
             logging.info("sys.argv[1]: %s", sys.argv[1])
             post(int(sys.argv[1]))
 
         else:
             post(1)
     except Exception as err:
-        print(format(err))
+        print("错误提示：%s", format(err))
         print('发布失败')
         sys.exit(-1)
 

@@ -5,7 +5,7 @@
 ## 功能
 
 1. 无需页面操作，不止新增，还可更新
-2. 可指定文章数量
+2. 可一次发布多篇文章
 3. 可删除文章
 
 ## 使用
@@ -28,7 +28,7 @@ config = {
 }
 ```
 
-在文章开头，添加文章信息块，至少需要包括 title 和 tags，格式如下：
+在文章开头，添加文章信息块，至少需要包括 `title` 和 `tags`，格式如下：
 
 ```Markdown
 ---
@@ -72,7 +72,6 @@ config = {
     'url': 'https://rpc.cnblogs.com/metaweblog/deppwang',
     'username': '',  # username 为登录用户名
     'password': ''
-    'local_post_path': ''
 }
 
 class MetaWeblog:
@@ -96,4 +95,5 @@ def main():
 
 我的[个人独立博客](https//depp.wang)是基于 Hexo 搭建的，因为小站，Google 搜索引擎收录文章比较慢，还搜不到
 
-为了解决这个问题，希望把文章也顺便发布到博客平台[博客园](https://www.cnblogs.com/deppwang)上。但不想每次手动复制粘贴，打算利用脚本实现，希望除了发布，并且还能更新文章。原来打算[找到博客园接口](https://depp.wang/2020/06/11/how-to-find-the-api-of-a-website-eg-note-youdao-com/)，模拟操作接口实现。搜索发现博客园提供了 [MetaWeblog 接口](https://rpc.cnblogs.com/metaweblog/deppwang)，所以利用接口，开发了一个这个脚本。
+为了解决这个问题，希望把文章也顺便发布到博客平台[博客园](https://www.cnblogs.com/deppwang)上。但不想每次手动复制粘贴，打算利用脚本实现，希望除了发布，并且还能更新文章。原来打算[找到博客园接口](https://depp.wang/2020/06/11/how-to-find-the-api-of-a-website-eg-note-youdao-com/)，模拟操作接口实现。搜索发现博客园提供了 [MetaWeblog 接口](https://rpc.cnblogs.com/metaweblog/deppwang)，所以利用接口，开发了这个脚本。
+

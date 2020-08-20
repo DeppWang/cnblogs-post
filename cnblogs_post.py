@@ -108,7 +108,7 @@ def set_article(article_path: str) -> dict:
     # cnblogs-markdown 属性用于代码块样式
     content = '<div class=\"cnblogs-markdown\">%s</div>' % content
 
-    if title is '' or content is '' or tags is '':
+    if title == '' or content == '' or tags == '':
         raise ValueError('文章 title、content、tags 均不能为空；\': \'后有空格。请检查！')
 
     article = {'title': title, 'content': content, 'tags': tags}

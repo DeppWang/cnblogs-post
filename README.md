@@ -41,6 +41,12 @@ categories: Tools
 正文开始 ...
 ```
 
+安装 [markdown-it-py](https://github.com/executablebooks/markdown-it-py)，用于将 Markdown 转换为 HTML
+
+```shell
+pip install markdown-it-py
+```
+
 ### 运行脚本发布或更新
 
 ```shell
